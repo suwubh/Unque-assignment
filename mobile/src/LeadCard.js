@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
 
-// Meta field names vary by form, so we look for the usual suspects and
-// fall back to whatever the form actually sent.
+// Field names depend on the form, so check the usual ones and fall back to
+// whatever actually came through.
 function pickName(fields) {
   return (
     fields.full_name ||
@@ -29,7 +29,7 @@ export default function LeadCard({ lead }) {
   const email = lead.fields?.email;
   const phone = lead.fields?.phone_number || lead.fields?.phone;
 
-  // Any extra fields beyond the common ones, shown generically.
+  // Anything else the form had, just list it.
   const shown = new Set(['full_name', 'name', 'first_name', 'last_name', 'email', 'phone_number', 'phone']);
   const extras = Object.entries(lead.fields || {}).filter(([k]) => !shown.has(k));
 

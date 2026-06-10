@@ -7,9 +7,9 @@ const router = express.Router();
 
 const VERIFY_TOKEN = process.env.META_VERIFY_TOKEN;
 
-// Meta signs the body with the app secret. We only check it when explicitly
-// turned on, otherwise a wrong secret would silently drop every webhook during
-// a demo. Needs req.rawBody (set in index.js).
+// Meta signs the body with the app secret. I only check it when it's turned on,
+// otherwise a wrong secret would quietly drop every webhook during a demo.
+// Needs req.rawBody (set in index.js).
 function isValidSignature(req) {
   if (process.env.VERIFY_SIGNATURE !== 'true') return true;
 
@@ -26,7 +26,7 @@ function isValidSignature(req) {
   }
 }
 
-// Webhook verification handshake.
+// The verification handshake Meta does when you set the webhook up.
 router.get('/', (req, res) => {
   const mode = req.query['hub.mode'];
   const token = req.query['hub.verify_token'];
@@ -44,8 +44,8 @@ router.post('/', async (req, res) => {
     return res.sendStatus(401);
   }
 
-  // Ack right away. Meta retries on slow responses, and the Graph lookup below
-  // doesn't need to block the 200.
+  // Ack first. Meta retries if you're slow, and the Graph lookup below doesn't
+  // need to hold up the 200.
   res.sendStatus(200);
 
   const body = req.body || {};
@@ -67,8 +67,8 @@ async function handleLead(value, pageId) {
     const raw = await fetchLead(leadgenId, process.env.PAGE_ACCESS_TOKEN);
     lead = normalizeLead(raw, { formId: value.form_id, pageId });
   } catch (err) {
-    // If the token/permission isn't right the lookup fails. Fall back to the
-    // little we got in the webhook so the lead still shows up.
+    // If the token or permission is off the lookup throws. Fall back to the
+    // little the webhook gave us so the lead still shows up.
     console.error(
       '[webhook] lead lookup failed:',
       err.response?.data?.error?.message || err.message

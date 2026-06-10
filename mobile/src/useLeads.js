@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import { BACKEND_URL } from '../config';
 
-// Keeps the socket open and the lead list in state. New leads go on top.
+// Keeps the socket open and holds the leads. Newest goes on top.
 export function useLeads() {
   const [leads, setLeads] = useState([]);
   const [connected, setConnected] = useState(false);
@@ -20,7 +20,7 @@ export function useLeads() {
     socket.on('connect_error', () => setConnected(false));
 
     socket.on('lead:new', (lead) => {
-      // receivedAt drives the brief highlight on the newest card.
+      // receivedAt is just so the newest card can flash for a second.
       setLeads((prev) => [{ ...lead, receivedAt: Date.now() }, ...prev]);
     });
 

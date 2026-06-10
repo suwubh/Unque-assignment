@@ -7,7 +7,7 @@ const webhookRouter = require('./webhook');
 
 const app = express();
 
-// Keep the raw body around for webhook signature checking.
+// Keep the raw body so we can check the webhook signature.
 app.use(express.json({ verify: (req, _res, buf) => { req.rawBody = buf; } }));
 
 app.get('/', (_req, res) => {
@@ -20,7 +20,7 @@ app.get('/', (_req, res) => {
 
 app.use('/webhook', webhookRouter);
 
-// Fire a fake lead without going through Meta. Useful for checking the
+// Fire a fake lead without going through Meta. Handy for testing the
 // socket -> app path on its own: curl -X POST localhost:4000/dev/simulate
 app.post('/dev/simulate', (req, res) => {
   const body = req.body || {};

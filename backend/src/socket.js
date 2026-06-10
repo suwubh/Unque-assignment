@@ -4,7 +4,7 @@ let io = null;
 
 function initSocket(server) {
   io = new Server(server, {
-    // The mobile client connects from a phone, so we don't pin an origin.
+    // App connects from a phone on whatever network, so not locking origin down.
     cors: { origin: '*' },
   });
 
