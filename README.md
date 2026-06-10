@@ -114,3 +114,18 @@ to check.
 - The signature check is written but off by default, didn't want a wrong secret
   silently killing the demo.
 - It assumes a single page and form, nothing multi-tenant.
+
+## Known issue: test lead delivery
+
+Meta's Lead Ads Testing Tool intermittently leaves a created test lead stuck on
+"Pending - still being processed and will be delivered shortly" and never
+actually dispatches the webhook. This is a platform-side issue, not the
+integration: app and page are linked, the page is subscribed to the app, and
+`subscribed_fields` contains `leadgen` (verified via `/subscribed_apps`).
+
+The same `leadgen` webhook, triggered from the app's webhook test
+(App Dashboard -> Webhooks -> Page -> leadgen -> Test), is delivered and shows
+up live in the app, so the full path works end to end. When a real test lead
+does come through, it renders with the actual submitted fields; the Test payload
+uses a placeholder id so the Graph lookup falls back to the minimal record (the
+`fetchError` path).
