@@ -15,7 +15,6 @@ function merge(existing, incoming) {
   return out;
 }
 
-// Keeps the socket open and holds the leads. Newest goes on top.
 export function useLeads() {
   const [leads, setLeads] = useState([]);
   const [connected, setConnected] = useState(false);

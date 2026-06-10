@@ -3,8 +3,7 @@ const { Server } = require('socket.io');
 let io = null;
 
 // Hold the last few leads so a client that connects (or reconnects) right after
-// one arrives still gets it. Emits are fire-and-forget, so without this a lead
-// that lands while the app is mid-reconnect just disappears.
+// one arrives still gets it — emits are fire-and-forget otherwise.
 const recentLeads = [];
 const MAX_RECENT = 25;
 
@@ -25,7 +24,6 @@ function initSocket(server) {
   return io;
 }
 
-// Stash the lead and push it to everyone. Returns how many clients got it.
 function publishLead(lead) {
   recentLeads.unshift(lead);
   if (recentLeads.length > MAX_RECENT) recentLeads.length = MAX_RECENT;

@@ -1,4 +1,3 @@
-// Where the app connects. The backend runs locally and ngrok exposes it, so
-// paste that https URL here. Using the ngrok URL instead of a LAN IP means the
-// phone reaches it on any network.
-export const BACKEND_URL = 'https://YOUR-NGROK-SUBDOMAIN.ngrok-free.app';
+// ngrok URL for the local backend — works from the phone on any network
+// (a LAN IP wouldn't off Wi-Fi).
+export const BACKEND_URL = 'https://emphatic-hertz-starch.ngrok-free.dev';

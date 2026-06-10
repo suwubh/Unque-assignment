@@ -29,7 +29,7 @@ export default function LeadCard({ lead }) {
   const email = lead.fields?.email;
   const phone = lead.fields?.phone_number || lead.fields?.phone;
 
-  // Anything else the form had, just list it.
+  // List any other fields the form happened to include.
   const shown = new Set(['full_name', 'name', 'first_name', 'last_name', 'email', 'phone_number', 'phone']);
   const extras = Object.entries(lead.fields || {}).filter(([k]) => !shown.has(k));
 
