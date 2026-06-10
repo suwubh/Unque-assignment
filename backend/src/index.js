@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const http = require('http');
 const express = require('express');
-const { initSocket, getIO } = require('./socket');
+const { initSocket, publishLead, getIO } = require('./socket');
 const webhookRouter = require('./webhook');
 
 const app = express();
@@ -36,7 +36,7 @@ app.post('/dev/simulate', (req, res) => {
     },
     raw: { simulated: true },
   };
-  getIO().emit('lead:new', lead);
+  publishLead(lead);
   res.json({ emitted: true, lead });
 });
 

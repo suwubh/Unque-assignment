@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const express = require('express');
 const { fetchLead, normalizeLead } = require('./graph');
-const { getIO } = require('./socket');
+const { publishLead } = require('./socket');
 
 const router = express.Router();
 
@@ -86,8 +86,8 @@ async function handleLead(value, pageId) {
     };
   }
 
-  getIO().emit('lead:new', lead);
-  console.log(`[webhook] sent lead ${lead.id} to ${getIO().engine.clientsCount} client(s)`);
+  const clients = publishLead(lead);
+  console.log(`[webhook] sent lead ${lead.id} to ${clients} client(s)`);
 }
 
 module.exports = router;
